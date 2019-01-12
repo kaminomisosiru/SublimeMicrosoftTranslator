@@ -2,6 +2,17 @@
 
 Microsoft translator plugin for Sublime Text 3.
 
+## Installation
+
+Clone the repository in your Sublime Text Packages directory:
+
+```shell
+cd /Users/<User Name>/Library/Application Support/Sublime Text 3/Packages
+git clone https://github.com/kaminomisosiru/SublimeMicrosoftTranslator.git
+```
+
+or download the latest source from GitHub and copy the whole directory into the Packages directory.
+
 ## Plugin settings
 
 Preference > Package Settings > Microsoft Translator > Settings - Default (or User)
