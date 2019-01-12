@@ -30,3 +30,7 @@ In the free plan, you can translate up to 1M characters per month.
 1. Select text
 2. Input `Command + Shift + m` or right click and select `Translate selected text`
 3. The results are outputted to a new file.
+
+## License
+
+MIT License
