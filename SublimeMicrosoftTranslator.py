@@ -13,11 +13,6 @@ class MicrosoftTranslatorSettings:
     token_end_point = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
     translate_end_point = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0"
 
-
-class ExampleCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
-        self.view.insert(edit, 0, "Hello, World!")
-
 #global settings
 settings = MicrosoftTranslatorSettings()
 translate_settings = sublime.load_settings("Microsoft Translator.sublime-settings");
