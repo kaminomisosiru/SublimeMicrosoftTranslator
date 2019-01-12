@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "Microsoft Translator: Translate",
+        "command": "select_translate"
+    },
+    {
+        "caption": "Microsoft Translator: Reverse Translate",
+        "command": "select_translate_reverse"
+    }
+]

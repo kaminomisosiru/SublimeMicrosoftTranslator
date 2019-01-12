@@ -1,0 +1,12 @@
+[
+    {
+        "id": "TranslateSelectedText",
+        "caption": "Translate selected text",
+        "command": "select_translate"
+    },
+    {
+        "id": "TranslateSelectedTextReverse",
+        "caption": "Reverse Translate selected text",
+        "command": "select_translate_reverse"
+    }
+]

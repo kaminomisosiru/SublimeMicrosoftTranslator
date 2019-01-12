@@ -1,0 +1,8 @@
+{
+    "api_key" : "",
+    "profanity": "NoAction",
+    // Translator Language Codes
+    // See https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages?tabs=curl for more details.
+    "from" : "ja",
+    "to" : "en"
+}
