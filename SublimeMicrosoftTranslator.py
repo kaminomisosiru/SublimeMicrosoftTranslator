@@ -41,14 +41,6 @@ class MicrosoftTranslator:
         sublime.set_timeout(lambda: self.show_result(source_text, translated), 100)
 
     def translate(self, command, edit, _from, to):
-        """
-        TODO
-        Args:
-            command:
-            edit:
-            _from:
-            to:
-        """
         global settings
         sublime.status_message("start translate...")
         sels = command.view.sel()
