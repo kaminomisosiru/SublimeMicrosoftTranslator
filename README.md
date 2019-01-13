@@ -37,7 +37,7 @@ In other words, the text is translated from `from` to `to`.
 For supported languages, please see [Translator Text API 3.0: Languages](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages).
 
 If you do not have a subscription key, please register Microsoft Azure and obtain a subscription key of Translator Text API. 
-In the free plan, you can translate up to 1M characters per month.
+In the free plan, you can translate up to 2M characters per month.
 
 ## How to use
 
