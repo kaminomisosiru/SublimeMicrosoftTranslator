@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import sublime
 import sublime_plugin
-import sys
 import urllib.request
 import json
 import threading
@@ -21,7 +20,7 @@ class MicrosoftTranslator:
 
     def __call__(self, command, edit, source_text, _from, to):
         global translate_settings
-        sublime.set_timeout(lambda: sublime.status_message("translate...."), 100)
+        sublime.set_timeout(lambda: sublime.status_message("Translating...."), 100)
         token = self.get_access_token()
         translated = self.doTranslate(source_text, _from, to, token)
         if translate_settings.get("show_result_in_new_file"):
@@ -31,11 +30,12 @@ class MicrosoftTranslator:
 
     def translate(self, command, edit, _from, to):
         global settings
-        sublime.status_message("start translate...")
+        sublime.status_message("Start translate...")
         sels = command.view.sel()
         source_text = ""
         for sel in sels:
             source_text += command.view.substr(sel)+" "
+        source_text = source_text.strip()
         if len(source_text) == 1:
             sublime.status_message("not selected. can't translate.")
             return
