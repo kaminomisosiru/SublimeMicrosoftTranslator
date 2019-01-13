@@ -20,30 +20,22 @@ translate_settings = sublime.load_settings("Microsoft Translator.sublime-setting
 class MicrosoftTranslator:
 
     def __call__(self, command, edit, source_text, _from, to):
-        """
-        Translating text.
-        Args:
-            command: sublime text command object.
-            edit: sublime text edit object.
-            source_text: String to be translated.
-            _from: Language of the string to translate.
-            to: to Language.
-            Returns: None.
-        """
+        global translate_settings
         sublime.set_timeout(lambda: sublime.status_message("translate...."), 100)
         token = self.get_access_token()
         translated = self.doTranslate(source_text, _from, to, token)
-        sublime.set_timeout(lambda: self.show_result(source_text, translated), 100)
+        if translate_settings.get("show_result_in_new_file"):
+            sublime.set_timeout(lambda: self.show_result_in_new_file(source_text, translated), 100)
+        else:
+            sublime.set_timeout(lambda: self.show_result_on_panel(source_text, translated), 100)
 
     def translate(self, command, edit, _from, to):
         global settings
         sublime.status_message("start translate...")
         sels = command.view.sel()
         source_text = ""
-        last_sel = None
         for sel in sels:
             source_text += command.view.substr(sel)+" "
-            last_sel = sel
         if len(source_text) == 1:
             sublime.status_message("not selected. can't translate.")
             return
@@ -89,24 +81,25 @@ class MicrosoftTranslator:
         return json.loads(response.decode('utf-8'))[0]['translations'][0]['text']
 
     def get_result_view(self):
-        """
-            To get the file to display the translation results.
-            start a thread and translate.
-        """
-        global settings
         active_window = sublime.active_window()
         for view in active_window.views():
             if view.id() == settings.view_id:
                 return view
         new_view = active_window.new_file()
         settings.view_id = new_view.id()
-        new_view.set_name("Microsoft Transrator Results.")
+        new_view.set_name("Microsoft Transrator Results")
         new_view.set_scratch(True)
         return new_view
 
-    def show_result(self, source_text, translated):
+    def get_result_view_panel(self):
+        window = sublime.active_window()
+        output_view = window.create_output_panel("MicrosoftTransratorResults")
+        window.run_command("show_panel",{"panel": "output.MicrosoftTransratorResults"})
+        return output_view
+
+    def show_result_in_new_file(self, source_text, translated):
         view = self.get_result_view()
-        result = "*translate*\n"
+        result = "Translate Result\n"
         result += "------------------------\n"
         result += source_text + "\n"
         result += "- - - - - - - - - - - - \n"
@@ -117,7 +110,20 @@ class MicrosoftTranslator:
         view.run_command('append', {'characters': result})
         view.run_command('goto_line', {"line": 0})
         view.show(0)
-        view.set_read_only(True)
+
+    def show_result_on_panel(self, source_text, translated):
+        output_view = self.get_result_view_panel()
+        result = "Translate Result\n"
+        # result = "------------------------\n"
+        result += "\n"
+        # result += source_text + "\n"
+        # result += "↓\n"
+        result += translated + "\n"
+        result += "\n"
+        output_view.set_read_only(False)
+        output_view.settings().set("word_wrap", True)
+        output_view.run_command('append', {'characters': result})
+        output_view.set_read_only(True)
 
 class SelectTranslateCommand(sublime_plugin.TextCommand):
     translator = MicrosoftTranslator()

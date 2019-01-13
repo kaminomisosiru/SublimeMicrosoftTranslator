@@ -20,6 +20,7 @@ Preference > Package Settings > Microsoft Translator > Settings - Default (or Us
 ```json
 {
     "api_key" : "",
+    "show_result_in_new_file": false,
     "profanity": "NoAction",
     "from" : "ja",
     "to" : "en",
@@ -27,6 +28,7 @@ Preference > Package Settings > Microsoft Translator > Settings - Default (or Us
 ```
 
 + `api_key`: Set your subscription key of Translator Text API.
++ `show_result_in_new_file`: If `true`, the translation result is outputted to a new file; otherwise, the the translation result is showed on panel.
 + `profanity`: Profanities should be treated in translations. Possible values are: `NoAction` (default), `Marked` or `Deleted`. See [Handle profanity](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-translate?tabs=curl#handle-profanity) for more details.
 + `from`: Set the language code of the text to be translated.
 + `to`: Set the language code of the translation.
