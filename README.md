@@ -7,7 +7,6 @@ Microsoft translator plugin for Sublime Text 3.
 Clone the repository in your Sublime Text Packages directory:
 
 ```shell
-cd /Users/<User Name>/Library/Application Support/Sublime Text 3/Packages
 git clone https://github.com/kaminomisosiru/SublimeMicrosoftTranslator.git
 ```
 
