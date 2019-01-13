@@ -99,13 +99,14 @@ class MicrosoftTranslator:
 
     def show_result_in_new_file(self, source_text, translated):
         view = self.get_result_view()
-        result = "Translate Result\n"
-        result += "------------------------\n"
-        result += source_text + "\n"
-        result += "- - - - - - - - - - - - \n"
-        result += translated + "\n"
-        result += "------------------------\n"
-        result += "\n"
+        # result = "Translate Result\n"
+        # result += "------------------------\n"
+        # result += source_text + "\n"
+        # result += "- - - - - - - - - - - - \n"
+        # result += translated + "\n"
+        # result += "------------------------\n"
+        # result += "\n"
+        result = translated
         view.set_read_only(False)
         view.run_command('append', {'characters': result})
         view.run_command('goto_line', {"line": 0})
@@ -113,11 +114,8 @@ class MicrosoftTranslator:
 
     def show_result_on_panel(self, source_text, translated):
         output_view = self.get_result_view_panel()
-        result = "Translate Result\n"
-        # result = "------------------------\n"
+        result = "Translate Result:\n"
         result += "\n"
-        # result += source_text + "\n"
-        # result += "↓\n"
         result += translated + "\n"
         result += "\n"
         output_view.set_read_only(False)
