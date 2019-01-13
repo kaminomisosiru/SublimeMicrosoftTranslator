@@ -41,9 +41,36 @@ In the free plan, you can translate up to 2M characters per month.
 
 ## How to use
 
+### Translate selected text
+
 1. Select text
-2. Input `Command + Shift + m` or right click and select `Translate selected text`
-3. The results are outputted to a new file.
+2. Input `Command + Shift + m`, or right click and select `Translate selected text`
+3. The results are outputted to a new file or panel.
+
+### Reverse translate selected text
+
+Translate the text from `to` to `_from`.
+
+1. Select text
+2. Input `Command + Shift + Alt + m`, or right click and select `Reverse translate selected text`
+3. The results are outputted to a new file or panel.
+
+### Example
+
+If settings are:
+
+```json
+{
+    "_from": "ja",
+    "to": "en"
+}
+```
+
+then
+
+"吾輩は猫である。" is translated into "I am a cat." by `Translate selected text`, and<br>
+"I am a cat." is translated into "吾輩は猫である。" by `Reverse translate selected text`.
+
 
 ## License
 
