@@ -27,10 +27,11 @@ class MicrosoftTranslator:
             sublime.set_timeout(lambda: self.show_result_in_new_file(source_text, translated), 100)
         else:
             sublime.set_timeout(lambda: self.show_result_on_panel(source_text, translated), 100)
+        sublime.status_message("Finish translation!")
 
     def translate(self, command, edit, _from, to):
         global settings
-        sublime.status_message("Start translate...")
+        sublime.status_message("Start translation...")
         sels = command.view.sel()
         source_text = ""
         for sel in sels:
