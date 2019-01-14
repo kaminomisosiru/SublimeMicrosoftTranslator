@@ -61,7 +61,7 @@ If settings are:
 
 ```json
 {
-    "_from": "ja",
+    "from": "ja",
     "to": "en"
 }
 ```
