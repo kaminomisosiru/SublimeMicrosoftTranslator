@@ -36,10 +36,10 @@ class MicrosoftTranslator:
             source_text += command.view.substr(sel)+" "
         source_text = source_text.strip()
         if len(source_text) == 0:
-            sublime.status_message("not selected. can't translate.")
+            sublime.message_dialog("Not selected. Can't translate.")
             return
         if settings.thread != None and settings.thread.isAlive() == True:
-            sublime.status_message("already translate now. wait please.")
+            sublime.message_dialog("Already translate now. Please wait.")
             return
         settings.thread = threading.Thread(target=self, args=(command, edit, source_text, _from, to,))
         settings.thread.setDaemon(True)
