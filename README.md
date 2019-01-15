@@ -29,7 +29,6 @@ See below for configuration details.
 {
     "api_key" : "",
     "show_result_in_new_file": false,
-    "profanity": "NoAction",
     "from" : "ja",
     "to" : "en",
 }
@@ -37,7 +36,6 @@ See below for configuration details.
 
 + `api_key`: Set your Translator Text API key.
 + `show_result_in_new_file`: If `true`, the translation result is outputted to a new file; otherwise, the the translation result is showed on blow panel.
-+ `profanity`: Profanities should be treated in translations. Possible values are: `NoAction` (default), `Marked` or `Deleted`. See [Handle profanity](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-translate?tabs=curl#handle-profanity) for more details.
 + `from`: Set 'translate from' language code .
 + `to`: Set 'translate to' language code.
 

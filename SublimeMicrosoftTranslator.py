@@ -66,7 +66,6 @@ class MicrosoftTranslator:
         headers = {
             'Authorization': 'Bearer ' + token,
             'Content-type': 'application/json',
-            'profanityAction': translate_settings.get('profanity')
         }
         url = settings.translate_end_point + '&to=' + to
         if _from != '':
