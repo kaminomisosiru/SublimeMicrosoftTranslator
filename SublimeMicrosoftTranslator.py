@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import sublime
 import sublime_plugin
-import urllib.request
+import requests
 import json
 import threading
 
@@ -9,7 +9,6 @@ import threading
 class MicrosoftTranslatorSettings:
     view_id = None
     thread = None
-    token_end_point = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
     translate_end_point = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0"
 
 #global settings
@@ -21,8 +20,7 @@ class MicrosoftTranslator:
     def __call__(self, command, edit, source_text, _from, to):
         global translate_settings
         sublime.set_timeout(lambda: sublime.status_message("Translating...."), 100)
-        token = self.get_access_token()
-        translated = self.doTranslate(source_text, _from, to, token)
+        translated = self.doTranslate(source_text, _from, to)
         if translate_settings.get("show_result_in_new_file"):
             sublime.set_timeout(lambda: self.show_result_in_new_file(source_text, translated), 100)
         else:
@@ -37,7 +35,7 @@ class MicrosoftTranslator:
         for sel in sels:
             source_text += command.view.substr(sel)+" "
         source_text = source_text.strip()
-        if len(source_text) == 1:
+        if len(source_text) == 0:
             sublime.status_message("not selected. can't translate.")
             return
         if settings.thread != None and settings.thread.isAlive() == True:
@@ -47,38 +45,23 @@ class MicrosoftTranslator:
         settings.thread.setDaemon(True)
         settings.thread.start()
 
-    def get_access_token(self):
+    def doTranslate(self, text, _from, to):
         global settings
         global translate_settings
         headers = {
             'Ocp-Apim-Subscription-Key': translate_settings.get('api_key'),
-            'Content-Length': 0
-        };
- 
-        req = urllib.request.Request(settings.token_end_point, headers=headers, method='POST')
-        with urllib.request.urlopen(req) as res:
-            body = res.read()
-        return body.decode('utf-8')
-
-    def doTranslate(self, text, _from, to, token):
-        global settings
-        global translate_settings
-        headers = {
-            'Authorization': 'Bearer ' + token,
             'Content-type': 'application/json',
         }
-        url = settings.translate_end_point + '&to=' + to
-        if _from != '':
-            url = url + '&from=' + _from
+        params = {
+            'to': to,
+            'from': _from
+        }
 
         body = [{
             'text' : text
         }]
-     
-        req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method='POST')
-        with urllib.request.urlopen(req) as res:
-            response = res.read()
-        return json.loads(response.decode('utf-8'))[0]['translations'][0]['text']
+        response = requests.post(settings.translate_end_point, headers=headers, params=params, json=body)
+        return response.json()[0]['translations'][0]['text']
 
     def get_result_view(self):
         active_window = sublime.active_window()
@@ -133,7 +116,7 @@ class SelectTranslateCommand(sublime_plugin.TextCommand):
         global translate_settings
         self.translator.translate(self, edit, translate_settings.get("from"), translate_settings.get("to"))
     def description(self, args):
-        return "Microsoft translator plugin for Sublime Text 3"
+        return "Microsoft translator package for Sublime Text 3"
 
 class SelectTranslateReverseCommand(sublime_plugin.TextCommand):
     translator = MicrosoftTranslator()
@@ -144,4 +127,4 @@ class SelectTranslateReverseCommand(sublime_plugin.TextCommand):
         global translate_settings
         self.translator.translate(self, edit, translate_settings.get("to"), translate_settings.get("from"))
     def description(self, args):
-        return "Microsoft translator plugin for Sublime Text 3"
+        return "Microsoft translator package for Sublime Text 3"
