@@ -2,8 +2,6 @@
     "api_key" : "",
     "profanity": "NoAction",
     "show_result_in_new_file": false,
-    // Translator Language Codes
-    // See https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages?tabs=curl for more details.
     "from" : "ja",
     "to" : "en"
 }

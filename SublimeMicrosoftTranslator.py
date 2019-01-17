@@ -5,7 +5,6 @@ import requests
 import json
 import threading
 
-# Microsoft translator
 class MicrosoftTranslatorSettings:
     view_id = None
     thread = None
@@ -18,7 +17,6 @@ translate_settings = sublime.load_settings("Microsoft Translator.sublime-setting
 class MicrosoftTranslator:
 
     def __call__(self, command, edit, source_text, _from, to):
-        global translate_settings
         sublime.set_timeout(lambda: sublime.status_message("Translating...."), 100)
         translated = self.doTranslate(source_text, _from, to)
         if translate_settings.get("show_result_in_new_file"):
@@ -46,8 +44,6 @@ class MicrosoftTranslator:
         settings.thread.start()
 
     def doTranslate(self, text, _from, to):
-        global settings
-        global translate_settings
         headers = {
             'Ocp-Apim-Subscription-Key': translate_settings.get('api_key'),
             'Content-type': 'application/json',
@@ -61,7 +57,11 @@ class MicrosoftTranslator:
             'text' : text
         }]
         response = requests.post(settings.translate_end_point, headers=headers, params=params, json=body)
-        return response.json()[0]['translations'][0]['text']
+        result = response.json()
+        if isinstance(result, list):
+            return response.json()[0]['translations'][0]['text']
+        else:
+            return "Error!: " + result['error']['message']
 
     def get_result_view(self):
         active_window = sublime.active_window()
@@ -82,17 +82,9 @@ class MicrosoftTranslator:
 
     def show_result_in_new_file(self, source_text, translated):
         view = self.get_result_view()
-        # result = "Translate Result\n"
-        # result += "------------------------\n"
-        # result += source_text + "\n"
-        # result += "- - - - - - - - - - - - \n"
-        # result += translated + "\n"
-        # result += "------------------------\n"
-        # result += "\n"
         result = translated
         view.set_read_only(False)
         view.run_command('append', {'characters': result})
-        view.run_command('goto_line', {"line": 0})
         view.show(0)
 
     def show_result_on_panel(self, source_text, translated):
@@ -110,10 +102,7 @@ class SelectTranslateCommand(sublime_plugin.TextCommand):
     translator = MicrosoftTranslator()
     def __init__(self, *args, **kwargs):
         sublime_plugin.TextCommand.__init__(self, *args, **kwargs)
-        self.setting = sublime.load_settings("SublimeMicrosoftTranslator.sublime-settings")
     def run(self, edit):
-        global settings
-        global translate_settings
         self.translator.translate(self, edit, translate_settings.get("from"), translate_settings.get("to"))
     def description(self, args):
         return "Microsoft translator package for Sublime Text 3"
@@ -123,8 +112,6 @@ class SelectTranslateReverseCommand(sublime_plugin.TextCommand):
     def __init__(self, *args, **kwargs):
         sublime_plugin.TextCommand.__init__(self, *args, **kwargs)
     def run(self, edit):
-        global settings
-        global translate_settings
         self.translator.translate(self, edit, translate_settings.get("to"), translate_settings.get("from"))
     def description(self, args):
         return "Microsoft translator package for Sublime Text 3"

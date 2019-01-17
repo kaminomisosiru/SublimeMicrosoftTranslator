@@ -2,8 +2,8 @@
 
 Translate your code using Microsoft Translator Text API.
 
-**Important**: In order to use this extension, you'll need to provide a Microsoft Translator Text API key of your own. 
-**Without the API key, this extension is useless for you.** 
+**Important**: In order to use this extension, you'll need to provide a Microsoft Translator Text API key of your own.
+**Without the API key, this extension is useless for you.**
 
 ## Installation
 
